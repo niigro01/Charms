@@ -1,0 +1,16 @@
+{
+    "344998755034071068": {
+        "level": 820,
+        "maxhp": 9340,
+        "maxmana": 13200,
+        "charms": [
+            "curse",
+            "divine-wrath",
+            "enflame",
+            "freeze",
+            "poison",
+            "wound",
+            "zap"
+        ]
+    }
+}
