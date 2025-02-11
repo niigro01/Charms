@@ -1,103 +1,125 @@
 ```markdown name=README.md
-# Discord Bot for Charms Selection and Analysis
+# Discord Charms Bot
 
-This Discord bot allows users to manage their character stats, select charms, and analyze hunt data to optimize charm assignments for various creatures. The bot uses several libraries for optimization and matrix calculations.
+This Discord bot helps players manage their character stats and charms in a game, and analyze their Hunt Analyzer data to optimize charm assignments for maximum damage. The bot is built using `discord.py` and has the following features:
 
 ## Features
 
-1. **Character Stats Management**: Users can input their character stats, including level, max hitpoints, and max mana.
-2. **Charm Selection**: Users can select from a variety of charms to optimize their performance.
-3. **Hunt Analyzer**: Users can paste their hunt analyzer data to extract information about killed creatures and get optimal charm assignments.
+1. **/mystats Command**:
+   - Allows users to enter their character stats such as level, max hitpoints, and max mana.
+   - Users can select their charms from a dropdown menu.
+   - Saves the user's stats and selected charms.
 
-## Installation
+2. **/analyzer Command**:
+   - Analyzes the user's Hunt Analyzer data to extract information about the killed creatures.
+   - Calculates the optimal charm assignments to maximize damage.
+   - Provides detailed analysis and sends the results in multiple embedded messages.
 
-To run this bot, you need to have Python installed. Follow the steps below to set up and run the bot.
+## Setup and Configuration
 
-### Requirements
+### Prerequisites
 
-The required Python packages are listed in `requirements.txt`. You can install them using `pip`.
+- Python 3.8 or higher
+- `discord.py` library
+- `python-dotenv` library
+- `numpy` library
 
-```plaintext name=requirements.txt
-python-dotenv
-discord.py
-ortools
-numpy
-scipy
-```
+### Installation
 
-### Installation Steps
+1. Clone this repository:
 
-1. Clone the repository or download the code.
-2. Navigate to the project directory.
-3. Create a virtual environment (optional but recommended).
+
+2. Create and activate a virtual environment:
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    ```
-4. Install the required packages.
+
+3. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-5. Create a `.env` file in the project directory and add your Discord bot token.
-   ```plaintext
+
+4. Create a `.env` file in the root directory of the project and add your Discord bot token:
+   ```env
    DISCORD_TOKEN=your_discord_bot_token
    ```
 
-## Usage
+5. Run the bot:
+   ```bash
+   python bot.py
+   ```
 
-Run the bot using the following command:
-
-```bash
-python bot.py
-```
-
-## Commands
+## Bot Commands
 
 ### /mystats
 
-Allows the user to input their character stats and select charms.
-
-```plaintext
-/mystats
-```
+- **Description**: Enter your stats and select your charms.
+- **Usage**: `/mystats`
+- **Flow**:
+  1. The user is prompted with a modal to enter their character level, max hitpoints, and max mana.
+  2. After submitting the stats, the user is presented with a dropdown menu to select their charms.
+  3. The bot saves the user's stats and selected charms.
 
 ### /analyzer
 
-Analyzes hunt data to provide optimal charm assignments for the killed creatures.
+- **Description**: Analyze a Hunt Analyzer to extract information about the killed creatures and provide optimal charm assignments.
+- **Usage**: `/analyzer`
+- **Flow**:
+  1. The user is prompted with a modal to paste their Hunt Analyzer data.
+  2. The bot extracts the "Killed Monsters" section from the provided data.
+  3. The bot processes the frequencies of the killed creatures and sorts them by frequency.
+  4. The bot calculates the optimal charm assignments for maximum damage.
+  5. The bot sends the results in embedded messages, each containing details of one optimal combination.
 
-```plaintext
-/analyzer
-```
+### Detailed Charm Analysis Process
 
-## Code Overview
+1. **Data Extraction**:
+   - The bot extracts the "Killed Monsters" section from the Hunt Analyzer data provided by the user.
+   - It processes the frequencies of the killed creatures and sorts them by frequency.
 
-### Main Bot File (`bot.py`)
+2. **User Data Retrieval**:
+   - The bot retrieves the user's saved stats and selected charms.
+   - If no charms are selected, the bot prompts the user to use `/mystats` to select their charms.
 
-The main bot file contains the logic for handling Discord interactions, managing user data, and performing optimization calculations.
+3. **Damage Calculation**:
+   - For each creature, the bot calculates the damage type damage factor, which is the product of the creature's health and the number of times it was killed.
+   - The bot builds matrices representing the potential damage for each charm against each creature.
 
-Key sections of the code:
+4. **Optimization**:
+   - The bot uses the Branch and Bound algorithm to find the optimal charm assignments that maximize total damage.
+   - The algorithm iteratively assigns charms to creatures and calculates the total damage for each assignment.
 
-- **Environment Setup**: Loading environment variables using `dotenv`.
-- **Bot Configuration**: Setting up the bot with the required intents and commands.
-- **Charm Manager**: Instance to manage user charms.
-- **Matrix Functions**: Functions to check matrix feasibility and solve assignment problems with constraints.
-- **Murty's Algorithm**: Implementation to generate multiple assignment solutions.
-- **Text Splitting**: Function to split long texts into smaller parts for Discord messages.
-- **Event Handlers**: Handling the bot's readiness and user commands.
+5. **Result Generation**:
+   - For each optimal combination, the bot generates a detailed summary including:
+     - The charm assigned to each creature.
+     - The base damage, vulnerability percentage, and mitigation percentage.
+     - The final damage and damage type efficiency.
+   - The bot sends each combination in a separate embedded message to the user.
 
-### Environment Variables
+## Example
 
-The bot uses a `.env` file to store sensitive information like the Discord token. Ensure you create this file and add your token before running the bot.
+### /mystats Command
 
-```plaintext name=.env
-DISCORD_TOKEN=your_discord_bot_token
-```
+1. User runs `/mystats`.
+2. User enters their character level, max hitpoints, and max mana in the modal.
+3. User selects their charms from the dropdown menu.
+4. Bot saves the stats and charms and confirms with a message.
 
-## Contributing
+### /analyzer Command
 
-Feel free to fork this repository and submit pull requests. For major changes, please open an issue to discuss what you would like to change.
+1. User runs `/analyzer`.
+2. User pastes their Hunt Analyzer data in the modal.
+3. Bot analyzes the data and calculates optimal charm assignments.
+4. Bot sends the results in embedded messages, each containing details of one optimal combination.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```
+
+```plaintext name=requirements.txt
+discord.py
+python-dotenv
+numpy
 ```
