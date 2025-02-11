@@ -117,10 +117,4 @@ to optimize charm assignments for maximum damage. The bot is built using `discor
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
 
-```plaintext name=requirements.txt
-discord.py
-python-dotenv
-numpy
-```
