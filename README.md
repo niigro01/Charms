@@ -1,7 +1,8 @@
 ```markdown name=README.md
 # Discord Charms Bot
 
-This Discord bot helps players manage their character stats and charms in a game, and analyze their Hunt Analyzer data to optimize charm assignments for maximum damage. The bot is built using `discord.py` and has the following features:
+This Discord bot helps players manage their character stats and charms in a game, and analyze their Hunt Analyzer data
+to optimize charm assignments for maximum damage. The bot is built using `discord.py` and has the following features:
 
 ## Features
 
